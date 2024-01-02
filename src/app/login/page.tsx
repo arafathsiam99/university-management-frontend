@@ -9,6 +9,7 @@ import { useUserLoginMutation } from "@/redux/api/authApi";
 import { isLoggedIn, storeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 
+
 type FormValues = {
   id: string;
   password: string;
@@ -21,10 +22,11 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       const res = await userLogin({ ...data }).unwrap();
-      if (res?.data?.accessToken) {
+      console.log(res);
+      if (res?.accessToken) {
         router.push("/profile");
       }
-      storeUserInfo({ accessToken: res?.data?.accessToken });
+      storeUserInfo({ accessToken: res?.accessToken });
       // console.log(res);
     } catch (err: any) {
       console.log(err.message);
