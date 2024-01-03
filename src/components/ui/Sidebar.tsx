@@ -2,21 +2,25 @@
 
 import { useState } from "react";
 import { Layout, Menu } from "antd";
+
 import { sidebarItems } from "@/constants/sidebarItems";
 import { getUserInfo } from "@/services/auth.service";
+
 const { Sider } = Layout;
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  // const role = USER_ROLE.FACULTY;
+
+  // const role = USER_ROLE.ADMIN;
   const { role } = getUserInfo() as any;
   // console.log(role);
+
   return (
     <Sider
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      width={200}
+      width={280}
       style={{
         overflow: "auto",
         height: "100vh",
@@ -32,7 +36,8 @@ const SideBar = () => {
           fontSize: "2rem",
           textAlign: "center",
           fontWeight: "bold",
-          marginBottom: "1rem",
+          marginBottom: ".5rem",
+          padding: "10px 0px",
         }}
       >
         UMS
