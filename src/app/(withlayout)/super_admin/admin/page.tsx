@@ -1,6 +1,6 @@
 "use client";
+import ActionBar from "@/components/ui/ActionBar";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
-import ActionBar from "@/components/ui/actionBar";
 import { Button } from "antd";
 import Link from "next/link";
 const ManageAdminPage = () => {
