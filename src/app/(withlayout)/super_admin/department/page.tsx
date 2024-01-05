@@ -1,9 +1,9 @@
 "use client";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
-import UMTable from "@/components/ui/UMTable";
-import { useDepartmentsQuery } from "@/redux/api/departmentApi";
 import { Button } from "antd";
 import Link from "next/link";
+import UMTable from "@/components/ui/UMTable";
+import { useDepartmentsQuery } from "@/redux/api/departmentApi";
 import { useState } from "react";
 
 const ManageDepartmentPage = () => {
@@ -13,6 +13,7 @@ const ManageDepartmentPage = () => {
   const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
+  // const [searchTerm, setSearchTerm] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
@@ -20,6 +21,8 @@ const ManageDepartmentPage = () => {
   query["sortOrder"] = sortOrder;
 
   const { data, isLoading } = useDepartmentsQuery({ ...query });
+  console.log(data);
+
   const departments = data?.departments;
   const meta = data?.meta;
 
@@ -40,7 +43,13 @@ const ManageDepartmentPage = () => {
       title: "Action",
       render: function (data: any) {
         return (
-          <Button onClick={() => console.log(data)} type="primary" danger>
+          <Button
+            onClick={() => {
+              console.log(data);
+            }}
+            type="primary"
+            danger
+          >
             x
           </Button>
         );
@@ -50,12 +59,12 @@ const ManageDepartmentPage = () => {
   // const tableData = [
   //   {
   //     key: "1",
-  //     name: "Arafath Islam Siam",
+  //     name: "Siam Brown",
   //     age: 32,
   //   },
   //   {
   //     key: "2",
-  //     name: "Jim Green",
+  //     name: "Siam Green",
   //     age: 42,
   //   },
   // ];
@@ -70,6 +79,7 @@ const ManageDepartmentPage = () => {
     setSortBy(field as string);
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };
+
   return (
     <div>
       <UMBreadCrumb

@@ -6,17 +6,18 @@ const DEPARTMENT_URL = "/management-departments";
 
 export const departmentApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
+
     departments: build.query({
-      query: (arg: Record<string, any>) => ({
+      query: (arg:Record<string, any>) => ({
         url: DEPARTMENT_URL,
         method: "GET",
         params: arg,
       }),
-      transformResponse: (response: IDepartment, meta: IMeta) => {
+      transformResponse:(response:IDepartment,meta:IMeta)=>{
         return {
-          departments: response,
-          meta,
-        };
+          departments : response,
+          meta
+        }
       },
       providesTags: [tagTypes.department],
     }),
@@ -25,9 +26,9 @@ export const departmentApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: DEPARTMENT_URL,
         method: "POST",
-        data,
+        data
       }),
-      invalidatesTags: [tagTypes.department],
+      invalidatesTags: [tagTypes.user],
     }),
   }),
 });
