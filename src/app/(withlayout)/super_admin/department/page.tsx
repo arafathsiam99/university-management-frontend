@@ -1,5 +1,6 @@
 "use client";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
+import { DeleteOutlined,EditOutlined,EyeOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Link from "next/link";
 import UMTable from "@/components/ui/UMTable";
@@ -21,28 +22,45 @@ const ManageDepartmentPage = () => {
   query["sortOrder"] = sortOrder;
 
   const { data, isLoading } = useDepartmentsQuery({ ...query });
-  console.log(data);
 
   const departments = data?.departments;
   const meta = data?.meta;
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Title",
+      dataIndex: "title",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-      //   sorter: true,
-      sorter: (a: any, b: any) => a.age - b.age,
+      title: "CreatedAt",
+      dataIndex: "createdAt",
+      sorter: true
     },
     {
       title: "Action",
       render: function (data: any) {
         return (
+         <>
+           <Button
+            onClick={() => {
+              console.log(data);
+            }}
+            type="primary"
+            
+          >
+            <EyeOutlined /> 
+          </Button>
+          <Button style={{
+            margin:"0 5px"
+          }}
+            onClick={() => {
+              console.log(data);
+            }}
+            type="primary"
+            
+          >
+            <EditOutlined />
+          </Button>
           <Button
             onClick={() => {
               console.log(data);
@@ -50,24 +68,13 @@ const ManageDepartmentPage = () => {
             type="primary"
             danger
           >
-            x
+            <DeleteOutlined />
           </Button>
+         </>
         );
       },
     },
   ];
-  // const tableData = [
-  //   {
-  //     key: "1",
-  //     name: "Siam Brown",
-  //     age: 32,
-  //   },
-  //   {
-  //     key: "2",
-  //     name: "Siam Green",
-  //     age: 42,
-  //   },
-  // ];
   const onPaginationChange = (page: number, pageSize: number) => {
     console.log("Page:", page, "PageSize:", pageSize);
     setPage(page);

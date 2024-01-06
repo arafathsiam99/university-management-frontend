@@ -1,7 +1,7 @@
 "use client";
 import { Table } from "antd";
 
-type UMTableProp = {
+type UMTableProps = {
   loading?: boolean;
   columns: any;
   dataSource: any;
@@ -23,7 +23,7 @@ const UMTable = ({
   onPaginationChange,
   onTableChange,
   showPagination = true,
-}: UMTableProp) => {
+}: UMTableProps) => {
   const paginationConfig = showPagination
     ? {
         pageSize: pageSize,
@@ -35,7 +35,7 @@ const UMTable = ({
     : false;
 
   return (
-    <Table
+   <Table
       loading={loading}
       columns={columns}
       dataSource={dataSource}
