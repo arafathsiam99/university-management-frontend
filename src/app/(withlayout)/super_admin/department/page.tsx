@@ -1,11 +1,17 @@
 "use client";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
-import { DeleteOutlined,EditOutlined,EyeOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import { Button, Input } from "antd";
 import Link from "next/link";
 import UMTable from "@/components/ui/UMTable";
 import { useDepartmentsQuery } from "@/redux/api/departmentApi";
 import { useState } from "react";
+import ActionBar from "@/components/ui/ActionBar";
 
 const ManageDepartmentPage = () => {
   const query: Record<string, any> = {};
@@ -14,12 +20,13 @@ const ManageDepartmentPage = () => {
   const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
-  // const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
+  query["searchTerm"] = searchTerm;
 
   const { data, isLoading } = useDepartmentsQuery({ ...query });
 
@@ -34,43 +41,42 @@ const ManageDepartmentPage = () => {
     {
       title: "CreatedAt",
       dataIndex: "createdAt",
-      sorter: true
+      sorter: true,
     },
     {
       title: "Action",
       render: function (data: any) {
         return (
-         <>
-           <Button
-            onClick={() => {
-              console.log(data);
-            }}
-            type="primary"
-            
-          >
-            <EyeOutlined /> 
-          </Button>
-          <Button style={{
-            margin:"0 5px"
-          }}
-            onClick={() => {
-              console.log(data);
-            }}
-            type="primary"
-            
-          >
-            <EditOutlined />
-          </Button>
-          <Button
-            onClick={() => {
-              console.log(data);
-            }}
-            type="primary"
-            danger
-          >
-            <DeleteOutlined />
-          </Button>
-         </>
+          <>
+            <Button
+              onClick={() => {
+                console.log(data);
+              }}
+              type="primary"
+            >
+              <EyeOutlined />
+            </Button>
+            <Button
+              style={{
+                margin: "0 5px",
+              }}
+              onClick={() => {
+                console.log(data);
+              }}
+              type="primary"
+            >
+              <EditOutlined />
+            </Button>
+            <Button
+              onClick={() => {
+                console.log(data);
+              }}
+              type="primary"
+              danger
+            >
+              <DeleteOutlined />
+            </Button>
+          </>
         );
       },
     },
@@ -87,6 +93,12 @@ const ManageDepartmentPage = () => {
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };
 
+  const resetFilters = () => {
+    setSortBy("");
+    setSortOrder("");
+    setSearchTerm("");
+  };
+
   return (
     <div>
       <UMBreadCrumb
@@ -97,10 +109,31 @@ const ManageDepartmentPage = () => {
           },
         ]}
       />
-      <h1>Department List</h1>
-      <Link href="/super_admin/department/create">
-        <Button type="primary">Create</Button>
-      </Link>
+      <ActionBar title="Department List">
+        <Input
+          style={{ width: "20%" }}
+          type="text"
+          size="large"
+          placeholder="Search......"
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+        />
+        <div>
+          <Link href="/super_admin/department/create">
+            <Button type="primary">Create</Button>
+          </Link>
+          {(!!sortBy || !!sortOrder || !!searchTerm) && (
+            <Button
+              onClick={resetFilters}
+              type="primary"
+              style={{ margin: "0 5px" }}
+            >
+              <ReloadOutlined />
+            </Button>
+          )}
+        </div>
+      </ActionBar>
       <UMTable
         loading={isLoading}
         columns={columns}
