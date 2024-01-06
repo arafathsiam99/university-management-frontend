@@ -12,6 +12,7 @@ import UMTable from "@/components/ui/UMTable";
 import { useDepartmentsQuery } from "@/redux/api/departmentApi";
 import { useState } from "react";
 import ActionBar from "@/components/ui/ActionBar";
+import { useDebounced } from "@/redux/hooks";
 
 const ManageDepartmentPage = () => {
   const query: Record<string, any> = {};
@@ -26,7 +27,16 @@ const ManageDepartmentPage = () => {
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
-  query["searchTerm"] = searchTerm;
+  // query["searchTerm"] = searchTerm;
+
+  const debouncedTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (!!debouncedTerm) {
+    query["searchTerm"] = debouncedTerm;
+  }
 
   const { data, isLoading } = useDepartmentsQuery({ ...query });
 
